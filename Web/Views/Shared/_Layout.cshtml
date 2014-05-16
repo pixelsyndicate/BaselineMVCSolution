@@ -1,0 +1,84 @@
+﻿@using Web
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My Baseline ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap/base")
+    @Styles.Render("~/Content/bootstrap/theme")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Home ">The Pixel Syndicate</a>
+            </div>
+            <div class="navbar-collapse collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    @Html.MenuItem("Home", "Index", "Home")
+                    @Html.MenuItem("About", "About", "Home")
+                    @if (!Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                    }
+                    <li><a href="mailto:wdobson@pixelsyndicate.com">Contact</a></li>
+                </ul>
+
+                @*
+                <section id="login">
+                    this is either text or an ul > li
+                    @Html.Partial("_LoginPartial")
+                </section>
+                *@
+
+                <div class="pull-right">
+                    @if (Request.IsAuthenticated)
+                    {
+                        <text>
+                        Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        {
+            @Html.AntiForgeryToken()
+<a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+        }
+                        </text>
+                    }
+                    <a class="navbar-brand" href="https://www.pixelsyndicate.com">
+                        <img class="logo img-rounded" src="~/Images/gwg_face.jpg" alt="GeeksWithGuns Logo" /></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container featured">
+        <section class="content-wrapper main-content clear-fix">
+            @RenderSection("featured", required: false)
+            @RenderBody()
+        </section>
+    </div>
+
+    <footer>
+        <div class="content-wrapper">
+            <div class="float-left">
+                <p>&copy; @DateTime.Now.Year - My Baseline ASP.NET MVC Application</p>
+            </div>
+        </div>
+    </footer>
+    @Scripts.Render("~/bundles/jquery",
+                        "~/bundles/highcharter",
+                        "~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
